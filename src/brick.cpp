@@ -3,6 +3,7 @@
 #include "ofGraphics.h"
 
 
+
 Brick::Brick(const Coordinate2D coord,const int sizeX, const int sizeY, const Color color)
 {
 	this->coord = coord;
@@ -43,35 +44,33 @@ void Brick::draw() const
 
 bool Brick::checkCollision(Coordinate2D otherCoord, int otherSize)
 {
-	if (!getBroken() && otherCoord.x + otherSize * 2 > coord.x && otherCoord.x < coord.x + sizeX + otherSize * 2 && otherCoord.y > coord.y && otherCoord.y < coord.y + sizeY + otherSize * 2)
+	if (!broken && otherCoord.x + otherSize * 2 > coord.x && otherCoord.x < coord.x + sizeX + otherSize * 2 && otherCoord.y > coord.y && otherCoord.y < coord.y + sizeY + otherSize * 2)
 	{
-		breakBrick();
 		std::cout << "Broke brick";
+		broken = true;
 		return true;
 	}
 	return false;
 }
 
-void Brick::breakBrick()
+int Brick::getScoreValue()
 {
 	if(brickColor == Color::Yellow)
 	{
-	//	ofApp::score++;
+		return 1;
 	}
 	else if(brickColor == Color::Green)
 	{
-	//	ofApp::score += 3;
+		return 3;
 	}
 	else if(brickColor == Color::Orange)
 	{
-	//	ofApp::score += 5;
+		return 5;
 	}
 	else
 	{
-	//	ofApp::score += 7;
+		return 7;
 	}
-	std::cout << "Score: " << "hi" << "\n";
-	broken = true;
 }
 
 bool Brick::getBroken()

@@ -8,6 +8,8 @@ Ball::Ball(const Coordinate2D coord, const int radius, const int speed)
 	this->coord = coord;
 	this->radius = radius;
 	this->speed = speed;
+	score = 0;
+	hitCount = 0;
 }
 
 void Ball::draw()
@@ -66,6 +68,7 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle paddle)
 	
 }
 
+
 bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 {
 
@@ -74,6 +77,15 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 		for (int j = 0; j < bricks[0].size(); j++)
 		{
 			if (bricks[i][j].checkCollision(coord, radius)) {
+				score += bricks[i][j].getScoreValue();
+				std::cout << "Score: " << score;
+				hitCount++;
+				if (hitCount == 4) {
+					speed += 1;
+				}
+				else if (hitCount == 12) {
+					speed += 1;
+				}
 				return true;
 			}
 		}

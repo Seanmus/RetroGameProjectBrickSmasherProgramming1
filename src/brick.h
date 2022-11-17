@@ -8,7 +8,7 @@ class Brick {
 		Brick();
 		void draw() const;
 		bool checkCollision(Coordinate2D otherCoord, int otherSize);
-		void breakBrick();
+		int getScoreValue();
 		bool getBroken();
 		Coordinate2D coord;
 		int sizeX{};
