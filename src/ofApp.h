@@ -9,6 +9,7 @@
 
 class ofApp : public ofBaseApp{
 	public:
+		static int score;
 		void setup();
 		void update();
 		void draw();

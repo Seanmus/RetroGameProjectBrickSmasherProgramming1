@@ -7,6 +7,7 @@ class Brick {
 		Brick(const Coordinate2D coord, const int sizeX, const int sizeY, const Color color);
 		Brick();
 		void draw() const;
+		bool checkCollision(Coordinate2D otherCoord, int otherSize);
 		void breakBrick();
 		bool getBroken();
 		Coordinate2D coord;

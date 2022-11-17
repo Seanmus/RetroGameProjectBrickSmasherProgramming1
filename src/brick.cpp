@@ -41,6 +41,17 @@ void Brick::draw() const
 
 }
 
+bool Brick::checkCollision(Coordinate2D otherCoord, int otherSize)
+{
+	if (!getBroken() && otherCoord.x + otherSize * 2 > coord.x && otherCoord.x < coord.x + sizeX + otherSize * 2 && otherCoord.y > coord.y && otherCoord.y < coord.y + sizeY + otherSize * 2)
+	{
+		breakBrick();
+		std::cout << "Broke brick";
+		return true;
+	}
+	return false;
+}
+
 void Brick::breakBrick()
 {
 	if(brickColor == Color::Yellow)

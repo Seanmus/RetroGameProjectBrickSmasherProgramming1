@@ -73,10 +73,7 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 	{
 		for (int j = 0; j < bricks[0].size(); j++)
 		{
-			if(!bricks[i][j].getBroken() && coord.x + radius * 2 > bricks[i][j].coord.x && coord.x < bricks[i][j].coord.x + bricks[i][j].sizeX + radius * 2 && coord.y > bricks[i][j].coord.y && coord.y < bricks[i][j].coord.y + bricks[i][j].sizeY + radius * 2)
-			{
-				bricks[i][j].breakBrick();
-				std::cout << "Broke brick" << i << "," << j;
+			if (bricks[i][j].checkCollision(coord, radius)) {
 				return true;
 			}
 		}
