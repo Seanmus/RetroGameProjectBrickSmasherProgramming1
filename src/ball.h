@@ -16,4 +16,5 @@ private:
 	Coordinate2D direction{ 1, 1 };
 	int radius;
 	int speed;
+	int lives = 3;
 };

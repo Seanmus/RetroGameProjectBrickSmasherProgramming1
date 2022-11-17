@@ -22,10 +22,23 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle paddle)
 		direction.x *= -1;
 		coord.x += direction.x * speed;
 	}
-	if (coord.y + direction.y * speed + radius * 2 > ofGetHeight() || coord.y - radius * 2 < 0)
+	if (coord.y - radius * 2 < 0)
 	{
 		direction.y *= -1;
 		coord.y += direction.y * speed;
+	}
+	else if (coord.y + direction.y * speed + radius * 2 > ofGetHeight()) 
+	{
+		lives--;
+		if (lives > 0) 
+		{
+			coord.x = ofGetHeight() / 2;
+			coord.y = ofGetWidth() / 2;
+		}
+		else {
+			std::cout << "You lost";
+		}
+
 	}
 	coord.x += direction.x * speed;
 	if(checkBrickCollision(bricks))
