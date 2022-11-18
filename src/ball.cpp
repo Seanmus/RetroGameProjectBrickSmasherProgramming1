@@ -13,8 +13,11 @@ Ball::Ball(const Coordinate2D coord, const int radius, const int speed)
 void Ball::draw()
 {
 	std::string scoreString = "Score: " + std::to_string(playerStats.score);
+	std::string livesString = "Lives: " + std::to_string(playerStats.lives);
 	ofDrawCircle(coord.x, coord.y, radius);
 	ofDrawBitmapString(scoreString, 100, 500);
+	ofDrawBitmapString(livesString, 100, 550);
+	
 }
 
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
@@ -28,6 +31,7 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 	}
 	if (checkPaddleCollision(paddle))
 	{
+		direction.y *= -1;
 		direction.x *= -1;
 		coord.x += direction.x * speed;
 	}
@@ -63,9 +67,9 @@ void Ball::checkWallCollision(Paddle& paddle)
 	}
 	else if (coord.y + direction.y * speed + radius * 2 > ofGetHeight())
 	{
-		playerStats.lives--;
 		if (playerStats.lives > 0)
 		{
+			playerStats.lives--;
 			coord.x = ofGetHeight() / 2;
 			coord.y = ofGetWidth() / 2;
 		}
