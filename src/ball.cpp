@@ -70,10 +70,13 @@ void Ball::checkWallCollision(Paddle& paddle)
 		if (playerStats.lives > 0)
 		{
 			playerStats.lives--;
-			coord.x = ofGetHeight() / 2;
-			coord.y = ofGetWidth() / 2;
+			coord.y = ofGetHeight() / 3;
+			coord.x = radius * 2 + 5;
+			direction.x = 1;
+			direction.y = 1;
 		}
 		else {
+			speed = 0;
 			std::cout << "You lost";
 		}
 
