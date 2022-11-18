@@ -3,11 +3,11 @@
 #include "brick.h"
 #include "paddle.h"
 #include <vector>
+#include "stats.h"
 
 class Ball {
 public:
-	int score;
-	int hitCount;
+	Stats playerStats{0, 0, 3, false, false, false};
 	Ball(const Coordinate2D coord, const int radius, const int speed);
 	void draw();
 	void move(std::vector<std::vector<Brick>>& bricks, Paddle paddle);
