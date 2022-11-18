@@ -12,39 +12,14 @@ Ball::Ball(const Coordinate2D coord, const int radius, const int speed)
 
 void Ball::draw()
 {
+	std::string scoreString = "Score: " + std::to_string(playerStats.score);
 	ofDrawCircle(coord.x, coord.y, radius);
+	ofDrawBitmapString(scoreString, 100, 500);
 }
 
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
-	if(coord.x + direction.x * speed  + radius * 2 > ofGetWidth() || coord.x - radius * 2 < 0)
-	{
-		direction.x *= -1;
-		coord.x += direction.x * speed;
-	}
-	if (coord.y - radius * 2 < 0)
-	{
-		if(!playerStats.hitTop)
-		{
-			playerStats.hitTop = true;
-			paddle.shrink();
-		}
-		direction.y *= -1;
-		coord.y += direction.y * speed;
-	}
-	else if (coord.y + direction.y * speed + radius * 2 > ofGetHeight()) 
-	{
-		playerStats.lives--;
-		if (playerStats.lives > 0) 
-		{
-			coord.x = ofGetHeight() / 2;
-			coord.y = ofGetWidth() / 2;
-		}
-		else {
-			std::cout << "You lost";
-		}
-
-	}
+	checkWallCollision(paddle);
 	coord.x += direction.x * speed;
 	if(checkBrickCollision(bricks))
 	{
@@ -67,8 +42,38 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 		direction.y *= -1;
 		coord.y += direction.y * speed;
 	}
+}
 
-	
+void Ball::checkWallCollision(Paddle& paddle)
+{
+	if (coord.x + direction.x * speed + radius * 2 > ofGetWidth() || coord.x - radius * 2 < 0)
+	{
+		direction.x *= -1;
+		coord.x += direction.x * speed;
+	}
+	if (coord.y - radius * 2 < 0)
+	{
+		if (!playerStats.hitTop)
+		{
+			playerStats.hitTop = true;
+			paddle.shrink();
+		}
+		direction.y *= -1;
+		coord.y += direction.y * speed;
+	}
+	else if (coord.y + direction.y * speed + radius * 2 > ofGetHeight())
+	{
+		playerStats.lives--;
+		if (playerStats.lives > 0)
+		{
+			coord.x = ofGetHeight() / 2;
+			coord.y = ofGetWidth() / 2;
+		}
+		else {
+			std::cout << "You lost";
+		}
+
+	}
 }
 
 
