@@ -22,41 +22,54 @@ void Ball::draw()
 
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
-	checkWallCollision(paddle);
-	coord.x += direction.x * speed * 0.5;
-	if(checkBrickCollision(bricks))
-	{
-		direction.x *= -1;
-		coord.x += direction.x * speed;
-	}
-	if (checkPaddleCollision(paddle))
-	{
-		direction.y = -1;
-		direction.x *= -1;
-		coord.x += direction.x * speed;
-		coord.y += direction.y * speed;
-	}
-	coord.y += direction.y * speed;
-	if (checkBrickCollision(bricks))
-	{
-		direction.y *= -1;
-		coord.y += direction.y * speed;
-	}
-	if (checkPaddleCollision(paddle))
-	{
-		direction.y = -1;
-		coord.y += direction.y * speed;
-	}
+	checkCollision(bricks, paddle);
+	coord.x += speed * direction.x / 2;
+	coord.y += speed * direction.y;
 }
 
-void Ball::checkWallCollision(Paddle& paddle)
+void Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
-	if (coord.x + direction.x * speed + radius * 2 > ofGetWidth() || coord.x - radius * 2 < 0)
+	Coordinate2D futurePositionX{ coord.x + direction.x * speed / 2, coord.y};
+	Coordinate2D futurePositionY{ coord.x + direction.x * speed / 2, coord.y + direction.y };
+	if (checkWallCollision(paddle, futurePositionX)) {}
+	else if (checkPaddleCollision(paddle, futurePositionX))
+	{
+		direction.y = -1;
+		coord.y += direction.y * speed;
+	}
+	else if(checkPaddleCollision(paddle, futurePositionY))
+	{
+		direction.y = -1;
+		direction.x *= -1;
+		coord.x += direction.x * speed;
+		coord.y += direction.y * speed;
+	}
+	if(futurePositionY.y < ofGetHeight()/3)
+	{
+		if (checkBrickCollision(bricks, futurePositionY))
+		{
+			direction.y *= -1;
+			coord.y += direction.y * speed;
+		}
+		else if (checkBrickCollision(bricks, futurePositionX))
+		{
+			direction.x *= -1;
+			coord.x += direction.x * speed;
+		}
+
+	}
+
+}
+
+bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
+{
+	if (futurePosition.x + direction.x * speed + radius * 2 > ofGetWidth() || futurePosition.x - radius * 2 < 0)
 	{
 		direction.x *= -1;
 		coord.x += direction.x * speed * 0.5;
+		return true;
 	}
-	if (coord.y - radius * 2 < 0)
+	if (futurePosition.y - radius * 2 < 0)
 	{
 		if (!playerStats.hitTop)
 		{
@@ -65,8 +78,9 @@ void Ball::checkWallCollision(Paddle& paddle)
 		}
 		direction.y *= -1;
 		coord.y += direction.y * speed;
+		return true;
 	}
-	else if (coord.y + direction.y * speed + radius * 2 > ofGetHeight())
+	else if (futurePosition.y + direction.y * speed + radius * 2 > ofGetHeight())
 	{
 		if (playerStats.lives > 0)
 		{
@@ -80,19 +94,18 @@ void Ball::checkWallCollision(Paddle& paddle)
 			speed = 0;
 			std::cout << "You lost";
 		}
-
+		return true;
 	}
+	return false;
 }
 
-
-bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
+bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition)
 {
-
 	for (int i = 0; i < bricks.size(); i++)
 	{
 		for (int j = 0; j < bricks[0].size(); j++)
 		{
-			if (bricks[i][j].checkCollision(coord, radius)) {
+			if (bricks[i][j].checkCollision(futurePosition, radius)) {
 				playerStats.score += bricks[i][j].getScoreValue();
 				playerStats.hitCount++;
 
@@ -120,9 +133,9 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 	return false;
 }
 
-bool Ball::checkPaddleCollision(Paddle paddle)
+bool Ball::checkPaddleCollision(Paddle paddle, Coordinate2D futurePosition)
 {
-	if (coord.x > paddle.getCoord().x - radius * 2 && coord.x < paddle.getCoord().x + paddle.getWidth() + radius * 2 && coord.y + radius > paddle.getCoord().y && coord.y < paddle.getCoord().y + paddle.getHeight())
+	if (futurePosition.x > paddle.getCoord().x - radius * 2 && futurePosition.x < paddle.getCoord().x + paddle.getWidth() + radius * 2 && futurePosition.y + radius > paddle.getCoord().y && futurePosition.y < paddle.getCoord().y + paddle.getHeight())
 	{
 		return true;
 	}
