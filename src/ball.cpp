@@ -3,7 +3,7 @@
 
 #include "ofAppRunner.h"
 
-Ball::Ball(const Coordinate2D coord, const int radius, const int speed)
+Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 {
 	this->coord = coord;
 	this->radius = radius;
@@ -23,7 +23,7 @@ void Ball::draw()
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
 	checkWallCollision(paddle);
-	coord.x += direction.x * speed;
+	coord.x += direction.x * speed * 0.5;
 	if(checkBrickCollision(bricks))
 	{
 		direction.x *= -1;
@@ -31,9 +31,10 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 	}
 	if (checkPaddleCollision(paddle))
 	{
-		direction.y *= -1;
+		direction.y = -1;
 		direction.x *= -1;
 		coord.x += direction.x * speed;
+		coord.y += direction.y * speed;
 	}
 	coord.y += direction.y * speed;
 	if (checkBrickCollision(bricks))
@@ -43,7 +44,7 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 	}
 	if (checkPaddleCollision(paddle))
 	{
-		direction.y *= -1;
+		direction.y = -1;
 		coord.y += direction.y * speed;
 	}
 }
@@ -53,7 +54,7 @@ void Ball::checkWallCollision(Paddle& paddle)
 	if (coord.x + direction.x * speed + radius * 2 > ofGetWidth() || coord.x - radius * 2 < 0)
 	{
 		direction.x *= -1;
-		coord.x += direction.x * speed;
+		coord.x += direction.x * speed * 0.5;
 	}
 	if (coord.y - radius * 2 < 0)
 	{
@@ -95,22 +96,22 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 				playerStats.score += bricks[i][j].getScoreValue();
 				playerStats.hitCount++;
 
-				if(i == 3)
+				if(i == 3 && !playerStats.hitOrange)
 				{
 					playerStats.hitOrange = true;
-					speed++;
+					speed+= 1.0f;
 				}
-				else if(i == 1)
+				else if(i == 1 && !playerStats.hitRed)
 				{
 					playerStats.hitRed = true;
-					speed++;
+					speed+= 1.0f;
 				}
 
 				if (playerStats.hitCount == 4) {
-					speed += 1;
+					speed += 1.0f;
 				}
 				else if (playerStats.hitCount == 12) {
-					speed += 1;
+					speed += 1.0f;
 				}
 				return true;
 			}
@@ -121,7 +122,7 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 
 bool Ball::checkPaddleCollision(Paddle paddle)
 {
-	if (coord.x > paddle.getCoord().x - radius * 2 && coord.x < paddle.getCoord().x + paddle.getWidth() + radius * 2 && coord.y > paddle.getCoord().y && coord.y < paddle.getCoord().y + paddle.getHeight())
+	if (coord.x > paddle.getCoord().x - radius * 2 && coord.x < paddle.getCoord().x + paddle.getWidth() + radius * 2 && coord.y + radius > paddle.getCoord().y && coord.y < paddle.getCoord().y + paddle.getHeight())
 	{
 		return true;
 	}
