@@ -15,7 +15,7 @@ void Ball::draw()
 	ofDrawCircle(coord.x, coord.y, radius);
 }
 
-void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle paddle)
+void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
 	if(coord.x + direction.x * speed  + radius * 2 > ofGetWidth() || coord.x - radius * 2 < 0)
 	{
@@ -24,13 +24,18 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle paddle)
 	}
 	if (coord.y - radius * 2 < 0)
 	{
+		if(!playerStats.hitTop)
+		{
+			playerStats.hitTop = true;
+			paddle.shrink();
+		}
 		direction.y *= -1;
 		coord.y += direction.y * speed;
 	}
 	else if (coord.y + direction.y * speed + radius * 2 > ofGetHeight()) 
 	{
-		lives--;
-		if (lives > 0) 
+		playerStats.lives--;
+		if (playerStats.lives > 0) 
 		{
 			coord.x = ofGetHeight() / 2;
 			coord.y = ofGetWidth() / 2;
@@ -76,8 +81,19 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks)
 		{
 			if (bricks[i][j].checkCollision(coord, radius)) {
 				playerStats.score += bricks[i][j].getScoreValue();
-				std::cout << "Score: " << playerStats.score;
 				playerStats.hitCount++;
+
+				if(i == 3)
+				{
+					playerStats.hitOrange = true;
+					speed++;
+				}
+				else if(i == 1)
+				{
+					playerStats.hitRed = true;
+					speed++;
+				}
+
 				if (playerStats.hitCount == 4) {
 					speed += 1;
 				}

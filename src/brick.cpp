@@ -46,7 +46,6 @@ bool Brick::checkCollision(Coordinate2D otherCoord, int otherSize)
 {
 	if (!broken && otherCoord.x + otherSize * 2 > coord.x && otherCoord.x < coord.x + sizeX + otherSize * 2 && otherCoord.y > coord.y && otherCoord.y < coord.y + sizeY + otherSize * 2)
 	{
-		std::cout << "Broke brick";
 		broken = true;
 		return true;
 	}

@@ -22,6 +22,11 @@ void Paddle::draw()
 
 }
 
+void Paddle::shrink()
+{
+	paddleWidth /= 2;
+}
+
 int Paddle::getWidth()
 {
 	return paddleWidth;

@@ -12,6 +12,7 @@ class Paddle {
 		Paddle(const Coordinate2D& coord, int speedMultiplier);
 		void move(int direction);
 		void draw();
+		void shrink();
 		int getWidth();
 		int getHeight();
 		Coordinate2D getCoord();
