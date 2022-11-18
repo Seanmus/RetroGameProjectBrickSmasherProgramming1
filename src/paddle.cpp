@@ -10,8 +10,8 @@ void Paddle::move(int direction)
 {
 	//Guard to stop paddle going Left off the screen
 	if (direction == -1 && coord.x - speedMultiplier < 0) { return; }
-	//Guard to stop paddle going Right oof the screen
-	if (direction == 1 && coord.x + speedMultiplier + paddleWidth > 1024) { return; }
+	//Guard to stop paddle going Right off the screen
+	if (direction == 1 && coord.x + speedMultiplier + paddleWidth > ofGetViewportWidth()) { return; }
 
 	coord.x += speedMultiplier * direction;
 }
