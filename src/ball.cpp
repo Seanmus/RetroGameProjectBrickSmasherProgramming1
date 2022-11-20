@@ -133,11 +133,7 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 
 bool Ball::checkPaddleCollision(Paddle paddle, Coordinate2D futurePosition)
 {
-	if (futurePosition.x > paddle.getCoord().x - radius * 2 && futurePosition.x < paddle.getCoord().x + paddle.getWidth() + radius * 2 && futurePosition.y + radius > paddle.getCoord().y && futurePosition.y < paddle.getCoord().y + paddle.getHeight())
-	{
-		return true;
-	}
-	return false;
+	return paddle.checkCollision(futurePosition, radius);
 }
 
 

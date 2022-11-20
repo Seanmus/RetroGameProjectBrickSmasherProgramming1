@@ -15,5 +15,6 @@ class Paddle {
 		void shrink();
 		int getWidth();
 		int getHeight();
+		bool checkCollision(Coordinate2D otherPosition, int otherSize);
 		Coordinate2D getCoord();
 };

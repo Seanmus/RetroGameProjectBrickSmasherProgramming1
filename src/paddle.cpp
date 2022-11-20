@@ -37,6 +37,11 @@ int Paddle::getHeight()
 	return paddleHeight;
 }
 
+bool Paddle::checkCollision(Coordinate2D otherPosition, int otherSize)
+{
+	return (otherPosition.x > coord.x - otherSize * 2 && otherPosition.x < coord.x + paddleWidth + otherSize * 2 && otherPosition.y + otherSize > coord.y && otherPosition.y < coord.y + paddleHeight);
+}
+
 Coordinate2D Paddle::getCoord()
 {
 	return coord;
