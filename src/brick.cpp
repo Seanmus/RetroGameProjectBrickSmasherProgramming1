@@ -77,3 +77,8 @@ bool Brick::getBroken()
 	return broken;
 }
 
+Brick::Color Brick::getColor()
+{
+	return brickColor;
+}
+

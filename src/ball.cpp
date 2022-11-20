@@ -107,12 +107,12 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 				playerStats.score += bricks[i][j].getScoreValue();
 				playerStats.hitCount++;
 
-				if(i == 3 && !playerStats.hitOrange)
+				if(bricks[i][j].getColor() == Brick::Color::Orange && !playerStats.hitOrange)
 				{
 					playerStats.hitOrange = true;
 					speed+= 1.0f;
 				}
-				else if(i == 1 && !playerStats.hitRed)
+				else if(bricks[i][j].getColor() == Brick::Color::Red && !playerStats.hitRed)
 				{
 					playerStats.hitRed = true;
 					speed+= 1.0f;

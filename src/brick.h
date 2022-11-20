@@ -10,6 +10,7 @@ class Brick {
 		bool checkCollision(Coordinate2D otherCoord, int otherSize);
 		int getScoreValue();
 		bool getBroken();
+		Color getColor();
 		Coordinate2D coord;
 		int sizeX{};
 		int sizeY{};
