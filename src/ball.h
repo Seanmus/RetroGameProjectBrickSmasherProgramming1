@@ -14,7 +14,6 @@ public:
 	void checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);
 	bool checkWallCollision(Paddle& paddle, Coordinate2D futurePosition);
 	bool checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition);
-	bool checkPaddleCollision(Paddle paddle, Coordinate2D futurePosition);
 private:
 	Coordinate2D coord;
 	Coordinate2D direction{ 1, 1 };

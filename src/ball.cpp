@@ -32,12 +32,12 @@ void Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 	Coordinate2D futurePositionX{ coord.x + direction.x * speed / 2, coord.y};
 	Coordinate2D futurePositionY{ coord.x, coord.y + direction.y };
 	if (checkWallCollision(paddle, futurePositionX)) {}
-	else if (checkPaddleCollision(paddle, futurePositionX))
+	else if (paddle.checkCollision(futurePositionX, radius))
 	{
 		direction.y = -1;
 		coord.y += direction.y * speed;
 	}
-	else if(checkPaddleCollision(paddle, futurePositionY))
+	else if(paddle.checkCollision(futurePositionY, radius))
 	{
 		direction.y = -1;
 		direction.x *= -1;
@@ -131,10 +131,6 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 	return false;
 }
 
-bool Ball::checkPaddleCollision(Paddle paddle, Coordinate2D futurePosition)
-{
-	return paddle.checkCollision(futurePosition, radius);
-}
 
 
 
