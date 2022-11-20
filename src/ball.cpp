@@ -22,9 +22,15 @@ void Ball::draw()
 
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
-	checkCollision(bricks, paddle);
-	coord.x += speed * direction.x / 2;
-	coord.y += speed * direction.y;
+	if (!playerStats.won) {
+		checkCollision(bricks, paddle);
+		coord.x += speed * direction.x / 2.3;
+		coord.y += speed * direction.y;
+	}
+	else {
+		std::cout << "You won";
+	}
+
 }
 
 void Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
@@ -61,13 +67,14 @@ void Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 
 bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 {
+	bool collisionEvent = false;
 	if (futurePosition.x + direction.x * speed + radius * 2 > ofGetWidth() || futurePosition.x - radius * 2 < 0)
 	{
 		direction.x *= -1;
 		coord.x += direction.x * speed * 0.5;
-		return true;
+		collisionEvent = true;
 	}
-	if (futurePosition.y - radius * 2 < 0)
+	else if (futurePosition.y - radius * 2 < 0)
 	{
 		if (!playerStats.hitTop)
 		{
@@ -76,7 +83,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 		}
 		direction.y *= -1;
 		coord.y += direction.y * speed;
-		return true;
+		collisionEvent = true;
 	}
 	else if (futurePosition.y + direction.y * speed + radius * 2 > ofGetHeight())
 	{
@@ -92,46 +99,52 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 			speed = 0;
 			std::cout << "You lost";
 		}
-		return true;
+		collisionEvent = true;
 	}
-	return false;
+	return collisionEvent;
 }
 
 bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition)
 {
+	int bricksLeft = 0;
 	for (int i = 0; i < bricks.size(); i++)
 	{
 		for (int j = 0; j < bricks[0].size(); j++)
 		{
-			if (bricks[i][j].checkCollision(futurePosition, radius)) {
-				playerStats.score += bricks[i][j].getScoreValue();
-				playerStats.hitCount++;
+			if (!bricks[i][j].getBroken()) {
 
-				if(bricks[i][j].getColor() == Brick::Color::Orange && !playerStats.hitOrange)
-				{
-					playerStats.hitOrange = true;
-					speed+= 1.0f;
-				}
-				else if(bricks[i][j].getColor() == Brick::Color::Red && !playerStats.hitRed)
-				{
-					playerStats.hitRed = true;
-					speed+= 1.0f;
+				bricksLeft++;
+				if (bricks[i][j].checkCollision(futurePosition, radius)) {
+					playerStats.score += bricks[i][j].getScoreValue();
+					playerStats.brickCount++;
+
+					if (bricks[i][j].getColor() == Brick::Color::Orange && !playerStats.hitOrange)
+					{
+						playerStats.hitOrange = true;
+						speed += 1.0f;
+					}
+					else if (bricks[i][j].getColor() == Brick::Color::Red && !playerStats.hitRed)
+					{
+						playerStats.hitRed = true;
+						speed += 1.0f;
+					}
+
+					if (playerStats.brickCount == 4) {
+						speed += 1.0f;
+					}
+					else if (playerStats.brickCount == 12) {
+						speed += 1.0f;
+					}
+					return true;
 				}
 
-				if (playerStats.hitCount == 4) {
-					speed += 1.0f;
-				}
-				else if (playerStats.hitCount == 12) {
-					speed += 1.0f;
-				}
-				return true;
 			}
 		}
 	}
+	std::cout << "Bricks left " << bricksLeft;
+	if (bricksLeft == 0) {
+		playerStats.won = true;
+	}
+
 	return false;
 }
-
-
-
-
-

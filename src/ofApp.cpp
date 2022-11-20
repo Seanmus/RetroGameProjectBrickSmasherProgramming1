@@ -9,7 +9,7 @@ void ofApp::setup(){
 
 	for(int i = 0; i < rows; i++)
 	{
-		vector<Brick> bricksRow{columns};
+		vector<Brick> bricksRow{0};
 		for(int j = 0; j < columns; j++)
 		{
 			Brick::Color brickColor;
