@@ -37,7 +37,7 @@ void Paddle::draw() const
 }
 
 /// <summary>
-/// Shrinks the paddle to half its original size.
+/// Shrinks the paddle to half its original size if not shrunk already.
 /// </summary>
 void Paddle::shrink()
 {

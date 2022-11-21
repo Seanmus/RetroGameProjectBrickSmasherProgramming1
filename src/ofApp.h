@@ -6,7 +6,9 @@
 #include "brick.h"
 #include "ball.h"
 
-
+/**
+ * Handles the overarching game logic and start menu
+ */
 class ofApp : public ofBaseApp{
 	public:
 		void setup();

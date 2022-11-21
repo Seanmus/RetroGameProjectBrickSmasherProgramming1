@@ -23,7 +23,7 @@ Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 /// </summary>
 void Ball::draw()
 {
-	ofDrawCircle(coord.x, coord.y, radius);
+	ofDrawCircle(coord.x, coord.y, static_cast<float>(radius));
 	displayUI();
 }
 

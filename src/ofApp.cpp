@@ -1,5 +1,6 @@
 #include "ofApp.h"
 
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 	const int rows = 8;
@@ -45,7 +46,7 @@ void ofApp::setup(){
 		bricks.push_back(bricksRow);
 	}
 }
-
+//Moves the paddle based on user input
 //--------------------------------------------------------------
 void ofApp::update(){
 	if(playing)
@@ -61,6 +62,8 @@ void ofApp::update(){
 	}
 }
 
+//If is playing ,draws the ball including its UI as well as the paddle, bricks and background gradient.
+//else draws that game logo and a start button.
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofColor bottomColor(255, 0, 128);
@@ -148,8 +151,8 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	if(x >= static_cast<int>(startButtonCoord.x - startButtonImage.getWidth()) / 2 && x <= static_cast<int>(startButtonCoord.x + startButtonImage.getWidth()/ 2 )
-		&& y >= static_cast<int>(startButtonCoord.y - startButtonImage.getHeight()) / 2 && y <= static_cast<int>(startButtonCoord.y + startButtonImage.getHeight() / 2))
+	if(x >= static_cast<int>(startButtonCoord.x - startButtonImage.getWidth() / 2) && x <= static_cast<int>(startButtonCoord.x + startButtonImage.getWidth()/ 2 )
+		&& y >= static_cast<int>(startButtonCoord.y - startButtonImage.getHeight() / 2)  && y <= static_cast<int>(startButtonCoord.y + startButtonImage.getHeight() / 2))
 	{
 		playing = true;
 	}
