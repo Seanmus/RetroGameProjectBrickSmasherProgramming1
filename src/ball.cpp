@@ -15,12 +15,21 @@ Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 
 void Ball::draw()
 {
+	ofDrawCircle(coord.x, coord.y, radius);
+	displayUI();
+}
+
+void Ball::displayUI() {
 	std::string scoreString = "Score: " + std::to_string(playerStats.score);
 	std::string livesString = "Lives: " + std::to_string(playerStats.lives);
-	ofDrawCircle(coord.x, coord.y, radius);
 	uiFont.drawString(scoreString, 50, 50);
 	uiFont.drawString(livesString, 400, 50);
-	
+	if (playerStats.won == true) {
+		uiFont.drawString("YOU WON!", 20, ofGetHeight() / 2);
+	}
+	else if (playerStats.lost == true) {
+		uiFont.drawString("YOU LOST TRY AGAIN", 20, ofGetHeight() / 2);
+	}
 }
 
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
@@ -106,7 +115,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 		}
 		else {
 			speed = 0;
-
+			playerStats.lost = true;
 			std::cout << "You lost";
 		}
 		collisionEvent = true;
