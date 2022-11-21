@@ -35,7 +35,9 @@ class ofApp : public ofBaseApp{
 
 		bool playing = false;
 		ofImage logo;
-		ofImage buttonImage;
+		ofImage startButtonImage;
+		Coordinate2D startButtonCoord{static_cast<float>(ofGetWidth()) / 2, static_cast<float>(ofGetHeight() / 1.5)};
+
 		ofSoundPlayer backgroundMusic;
 		
 

@@ -13,8 +13,8 @@ void ofApp::setup(){
 
 	logo.load("logo.png");
 	logo.setAnchorPoint(logo.getWidth() / 2, logo.getHeight() / 2);
-	buttonImage.load("button.png");
-	buttonImage.setAnchorPoint(buttonImage.getWidth() / 2, buttonImage.getHeight() / 2);
+	startButtonImage.load("button.png");
+	startButtonImage.setAnchorPoint(startButtonImage.getWidth() / 2, startButtonImage.getHeight() / 2);
 
 	for(int i = 0; i < rows; i++)
 	{
@@ -84,7 +84,7 @@ void ofApp::draw(){
 	else
 	{
 		logo.draw(ofGetWidth() / 2, ofGetHeight() / 5);
-		buttonImage.draw(ofGetWidth() / 2, ofGetHeight() / 1.5);
+		startButtonImage.draw(startButtonCoord.x, startButtonCoord.y);
 	}
 }
 
@@ -148,8 +148,8 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	if(x >= ofGetWidth() / 2  - buttonImage.getWidth() / 2 && x <= ofGetWidth() / 2 + buttonImage.getWidth() / 2 
-		&& y >= ofGetHeight() / 1.5 - buttonImage.getHeight() / 2 && y <= ofGetWidth() / 1.5 + buttonImage.getHeight() / 2 )
+	if(x >= static_cast<int>(startButtonCoord.x - startButtonImage.getWidth()) / 2 && x <= static_cast<int>(startButtonCoord.x + startButtonImage.getWidth()/ 2 )
+		&& y >= static_cast<int>(startButtonCoord.y - startButtonImage.getHeight()) / 2 && y <= static_cast<int>(startButtonCoord.y + startButtonImage.getHeight() / 2))
 	{
 		playing = true;
 	}
