@@ -4,8 +4,8 @@
 void ofApp::setup(){
 	const int rows = 8;
 	const int columns = 14;
-	int brickWidth = ofGetWidth() / columns;
-	int brickHeight = (ofGetHeight() / 5) / rows;
+	const int brickWidth = ofGetWidth() / columns;
+	const int brickHeight = (ofGetHeight() / 5) / rows;
 
 	backgroundMusic.loadSound("music.wav");
 	backgroundMusic.setLoop(true);
@@ -33,7 +33,7 @@ void ofApp::setup(){
 			{
 				brickColor = Brick::Color::Yellow;
 			}
-			Coordinate2D coord{ brickWidth * static_cast<float>(j), brickHeight * static_cast<float>(i + 4) + 10};
+			Coordinate2D coord{ static_cast<float>(brickWidth * j), static_cast<float>(brickHeight * (i + 4) + 10)};
 			Brick brick{ coord,brickWidth - 5, brickHeight - 5, brickColor };
 			bricksRow.push_back(brick);
 		}
