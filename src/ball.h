@@ -29,6 +29,6 @@ private:
 	ofSoundPlayer bounceSound;
 	ofSoundPlayer winSound;
 	ofTrueTypeFont uiFont;
-	void displayUI();
+	void displayUI() const;
 
 };

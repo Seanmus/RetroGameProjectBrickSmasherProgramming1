@@ -32,16 +32,17 @@ void Ball::draw()
 /// <summary>
 /// Displays the UI including a win and lost message, score and lives counter.
 /// </summary>
-void Ball::displayUI() {
-	std::string scoreString = "Score: " + std::to_string(playerStats.score);
-	std::string livesString = "Lives: " + std::to_string(playerStats.lives);
+void Ball::displayUI() const
+{
+	const std::string scoreString = "Score: " + std::to_string(playerStats.score);
+	const std::string livesString = "Lives: " + std::to_string(playerStats.lives);
 	uiFont.drawString(scoreString, 50, 50);
 	uiFont.drawString(livesString, 400, 50);
 	if (playerStats.won == true) {
-		uiFont.drawString("YOU WON!", 200, ofGetHeight() / 2);
+		uiFont.drawString("YOU WON!", 200,  static_cast<float>(ofGetHeight()) / 2);
 	}
 	else if (playerStats.lost == true) {
-		uiFont.drawString("Press r to try again", ofGetWidth() / 2 - 250, ofGetHeight() / 2);
+		uiFont.drawString("Press r to try again",  static_cast<float>(ofGetWidth()) / 2 - 250,  static_cast<float>(ofGetHeight()) / 2);
 	}
 }
 
@@ -53,8 +54,8 @@ void Ball::displayUI() {
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
 	if (!playerStats.won && !playerStats.lost) {
-		if (checkCollision(bricks, paddle)) { bounceSound.play(); };
-		coord.x += speed * direction.x / 2.3;
+		if (checkCollision(bricks, paddle)) { bounceSound.play(); }
+		coord.x += speed * direction.x / 2.3f;
 		coord.y += speed * direction.y;
 	}
 }
@@ -68,10 +69,10 @@ void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
 	bool hitEvent = false;
-	Coordinate2D futurePositionX{ coord.x + direction.x * speed / 2, coord.y};
-	Coordinate2D futurePositionY{ coord.x, coord.y + direction.y  * speed};
+	const Coordinate2D futurePositionX{ coord.x + direction.x * speed / 2, coord.y};
+	const Coordinate2D futurePositionY{ coord.x, coord.y + direction.y  * speed};
 	if (checkWallCollision(paddle, futurePositionX)) { hitEvent = true; }
-	else if(paddle.checkCollision(futurePositionY, radius))
+	else if (paddle.checkCollision(futurePositionY, radius))
 	{
 		direction.y = -1;
 		hitEvent = true;
@@ -82,7 +83,7 @@ bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 		direction.x *= -1;
 		hitEvent = true;
 	}
-	else if(futurePositionY.y < ofGetHeight()/3)
+	else if (futurePositionY.y < static_cast<float>(ofGetHeight()) / 3)
 	{
 		if (checkBrickCollision(bricks, futurePositionY))
 		{
@@ -109,12 +110,12 @@ bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 {
 	bool collisionEvent = false;
-	if (futurePosition.x + direction.x * speed + radius * 2 > ofGetWidth() || futurePosition.x - radius * 2 < 0)
+	if (futurePosition.x + direction.x * speed + static_cast<float>(radius * 2) > static_cast<float>(ofGetWidth()) || futurePosition.x - static_cast<float>(radius * 2) < 0)
 	{
 		direction.x *= -1;
 		collisionEvent = true;
 	}
-	else if (futurePosition.y - radius * 2 < 0)
+	else if (futurePosition.y - static_cast<float>(radius * 2) < 0)
 	{
 		if (!playerStats.hitTop)
 		{
@@ -124,19 +125,20 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 		direction.y *= -1;
 		collisionEvent = true;
 	}
-	else if (futurePosition.y + direction.y * speed + radius * 2 > ofGetHeight())
+	else if (futurePosition.y + direction.y * speed + static_cast<float>(radius) * 2 > static_cast<float>(ofGetHeight()))
 	{
-		//Respawns the player
+		//Re-spawns the player
 		if (playerStats.lives > 1)
 		{
 			playerStats.lives--;
-			coord.y = ofGetHeight() / 3;
-			coord.x = radius * 2 + 5;
+			coord.y = static_cast<float>(ofGetHeight()) / 3;
+			coord.x = static_cast<float>(radius * 2 + 5) ;
 			direction.x = 1;
 			direction.y = 1;
 		}
 		//Sets the game to be in a lost state
-		else {
+		else 
+		{
 			playerStats.lost = true;
 		}
 		collisionEvent = true;
@@ -153,9 +155,9 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition)
 {
 	int bricksLeft = 0;
-	for (int i = 0; i < bricks.size(); i++)
+	for (int i = 0; i < static_cast<int>(bricks.size()); i++)
 	{
-		for (int j = 0; j < bricks[0].size(); j++)
+		for (int j = 0; j < static_cast<int>(bricks[0].size()); j++)
 		{
 			if (!bricks[i][j].getBroken()) {
 
@@ -175,19 +177,21 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 						speed += 1.0f;
 					}
 
-					if (playerStats.brickCount == 4) {
+					if (playerStats.brickCount == 4) 
+					{
 						speed += 1.0f;
 					}
-					else if (playerStats.brickCount == 12) {
+					else if (playerStats.brickCount == 12) 
+					{
 						speed += 1.0f;
 					}
 					return true;
 				}
-
 			}
 		}
 	}
-	if (bricksLeft == 0) {
+	if (bricksLeft == 0) 
+	{
 		winSound.play();
 		winSound.setLoop(true);
 		playerStats.won = true;
@@ -199,7 +203,8 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 /// <summary>
 /// Resets the ball to its initial state including stats.
 /// </summary>
-void Ball::reset() {
+void Ball::reset()
+{
 	playerStats.lives = 3;
 	playerStats.score = 0;
 	playerStats.brickCount = 0;
@@ -209,8 +214,8 @@ void Ball::reset() {
 	playerStats.hitRed = false;
 	playerStats.hitTop = false;
 	speed = originalSpeed;
-	coord.x = ofGetWidth() / 2;
-	coord.y = ofGetHeight() / 3;
+	coord.x = static_cast<float>(ofGetWidth()) / 2;
+	coord.y = static_cast<float>(ofGetHeight()) / 3;
 	direction.x = 1;
 	direction.y = 1;
 	winSound.setLoop(false);
