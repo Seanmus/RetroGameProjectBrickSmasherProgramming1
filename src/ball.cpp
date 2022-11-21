@@ -3,6 +3,12 @@
 
 #include "ofAppRunner.h"
 
+/// <summary>
+/// Constructs the ball
+/// </summary>
+/// <param name="coord">The inital starting position of the ball.</param>
+/// <param name="radius">The radius of the ball.</param>
+/// <param name="speed">The initial speed of the ball.</param>
 Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 {
 	this->coord = coord;
@@ -14,12 +20,18 @@ Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 	originalSpeed = speed;
 }
 
+/// <summary>
+/// Draws the ball and calls the display UI method
+/// </summary>
 void Ball::draw()
 {
 	ofDrawCircle(coord.x, coord.y, radius);
 	displayUI();
 }
 
+/// <summary>
+/// Displays the UI including a win and lost message, score and lives counter.
+/// </summary>
 void Ball::displayUI() {
 	std::string scoreString = "Score: " + std::to_string(playerStats.score);
 	std::string livesString = "Lives: " + std::to_string(playerStats.lives);
@@ -33,19 +45,26 @@ void Ball::displayUI() {
 	}
 }
 
+/// <summary>
+/// Moves the player if they have not won or lost.
+/// </summary>
+/// <param name="bricks"></param>
+/// <param name="paddle"></param>
 void Ball::move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
-	if (!playerStats.won) {
+	if (!playerStats.won && !playerStats.lost) {
 		if (checkCollision(bricks, paddle)) { bounceSound.play(); };
 		coord.x += speed * direction.x / 2.3;
 		coord.y += speed * direction.y;
 	}
-	else {
-		std::cout << "You won";
-	}
-
 }
 
+/// <summary>
+/// Checks if the ball collides with walls, bricks or the paddle.
+/// </summary>
+/// <param name="bricks">The 2d vector of bricks to check collisions against.</param>
+/// <param name="paddle">The paddle to check collisions against.</param>
+/// <returns>True if a hit is detected.</returns>
 bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle)
 {
 	bool hitEvent = false;
@@ -55,15 +74,12 @@ bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 	else if(paddle.checkCollision(futurePositionY, radius))
 	{
 		direction.y = -1;
-		coord.y += direction.y * speed;
 		hitEvent = true;
 	}
 	else if (paddle.checkCollision(futurePositionX, radius))
 	{
 		direction.y = -1;
 		direction.x *= -1;
-		coord.y += direction.y * speed;
-		coord.x += direction.x * speed;
 		hitEvent = true;
 	}
 	else if(futurePositionY.y < ofGetHeight()/3)
@@ -84,13 +100,18 @@ bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 
 }
 
+/// <summary>
+/// Checks if the ball has collided with any of the walls. If it hits the bottom a life is taken away.
+/// </summary>
+/// <param name="paddle">The paddle the player controls. shrinks the first time the player hits the top wall.</param>
+/// <param name="futurePosition">The future position of the ball to check collisions against.</param>
+/// <returns>True if a collision is detected.</returns>
 bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 {
 	bool collisionEvent = false;
 	if (futurePosition.x + direction.x * speed + radius * 2 > ofGetWidth() || futurePosition.x - radius * 2 < 0)
 	{
 		direction.x *= -1;
-		coord.x += direction.x * speed * 0.5;
 		collisionEvent = true;
 	}
 	else if (futurePosition.y - radius * 2 < 0)
@@ -101,11 +122,11 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 			paddle.shrink();
 		}
 		direction.y *= -1;
-		coord.y += direction.y * speed;
 		collisionEvent = true;
 	}
 	else if (futurePosition.y + direction.y * speed + radius * 2 > ofGetHeight())
 	{
+		//Respawns the player
 		if (playerStats.lives > 1)
 		{
 			playerStats.lives--;
@@ -114,16 +135,21 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 			direction.x = 1;
 			direction.y = 1;
 		}
+		//Sets the game to be in a lost state
 		else {
-			speed = 0;
 			playerStats.lost = true;
-			std::cout << "You lost";
 		}
 		collisionEvent = true;
 	}
 	return collisionEvent;
 }
 
+/// <summary>
+/// Checks if the ball collides with any of the bricks.
+/// </summary>
+/// <param name="bricks">The 2d vector of bricks at the top of the screen.</param>
+/// <param name="futurePosition">The future position of the ball to check collisions against.</param>
+/// <returns>True if a collision is detected.</returns>
 bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition)
 {
 	int bricksLeft = 0;
@@ -170,6 +196,9 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 	return false;
 }
 
+/// <summary>
+/// Resets the ball to its initial state including stats.
+/// </summary>
 void Ball::reset() {
 	playerStats.lives = 3;
 	playerStats.score = 0;
