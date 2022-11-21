@@ -5,6 +5,7 @@
 #include <vector>
 #include "brick.h"
 #include "ball.h"
+#include "buttonClass.h"
 
 /**
  * Handles the overarching game logic and start menu
@@ -31,9 +32,7 @@ class ofApp : public ofBaseApp{
 
 		bool playing = false;
 		ofImage logo;
-		ofImage startButtonImage;
-		Coordinate2D startButtonCoord{static_cast<float>(ofGetWidth()) / 2, static_cast<float>(ofGetHeight() / 1.5)};
-
+		ButtonClass startButton{Coordinate2D{static_cast<float>(ofGetWidth()) / 2, static_cast<float>(ofGetHeight() / 1.5)}, "button.png", "buttonHover.png"};
 		ofSoundPlayer backgroundMusic;
 		
 

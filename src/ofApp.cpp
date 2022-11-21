@@ -14,8 +14,6 @@ void ofApp::setup(){
 
 	logo.load("logo.png");
 	logo.setAnchorPoint(logo.getWidth() / 2, logo.getHeight() / 2);
-	startButtonImage.load("button.png");
-	startButtonImage.setAnchorPoint(startButtonImage.getWidth() / 2, startButtonImage.getHeight() / 2);
 
 	for(int i = 0; i < rows; i++)
 	{
@@ -87,7 +85,7 @@ void ofApp::draw(){
 	else
 	{
 		logo.draw(static_cast<float>(ofGetWidth()) / 2, static_cast<float>(ofGetHeight()) / 5);
-		startButtonImage.draw(startButtonCoord.x, startButtonCoord.y);
+		startButton.draw();
 	}
 }
 
@@ -136,14 +134,12 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+	startButton.checkHover(Coordinate2D{ static_cast<float>(x), static_cast<float>(y) });
 }
-
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	if(x >= static_cast<int>(startButtonCoord.x - startButtonImage.getWidth() / 2) && x <= static_cast<int>(startButtonCoord.x + startButtonImage.getWidth()/ 2 )
-		&& y >= static_cast<int>(startButtonCoord.y - startButtonImage.getHeight() / 2)  && y <= static_cast<int>(startButtonCoord.y + startButtonImage.getHeight() / 2))
+	if(startButton.checkCollision(Coordinate2D{static_cast<float>(x), static_cast<float>(y)}))
 	{
 		playing = true;
 	}
