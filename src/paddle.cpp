@@ -1,9 +1,11 @@
 #include "paddle.h"
+#include <ofAppRunner.h>
 
 Paddle::Paddle(const Coordinate2D& coord, int speedMultiplier)
 {
 	this->coord = coord;
 	this->speedMultiplier = speedMultiplier;
+	originalPaddleWidth = paddleWidth;
 }
 
 void Paddle::move(int direction)
@@ -45,4 +47,10 @@ bool Paddle::checkCollision(Coordinate2D otherPosition, int otherSize)
 Coordinate2D Paddle::getCoord()
 {
 	return coord;
+}
+
+void Paddle::reset() 
+{
+	paddleWidth = originalPaddleWidth;
+	coord.x = ofGetWidth() / 2;
 }

@@ -11,6 +11,7 @@ Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 	bounceSound.loadSound("bounce.wav");
 	winSound.loadSound("win.wav");
 	uiFont.loadFont("Sigmar.ttf", 30);
+	originalSpeed = speed;
 }
 
 void Ball::draw()
@@ -25,10 +26,10 @@ void Ball::displayUI() {
 	uiFont.drawString(scoreString, 50, 50);
 	uiFont.drawString(livesString, 400, 50);
 	if (playerStats.won == true) {
-		uiFont.drawString("YOU WON!", 20, ofGetHeight() / 2);
+		uiFont.drawString("YOU WON!", 200, ofGetHeight() / 2);
 	}
 	else if (playerStats.lost == true) {
-		uiFont.drawString("YOU LOST TRY AGAIN", 20, ofGetHeight() / 2);
+		uiFont.drawString("YOU LOST, TRY AGAIN", ofGetWidth() / 2 - 250, ofGetHeight() / 2);
 	}
 }
 
@@ -105,7 +106,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 	}
 	else if (futurePosition.y + direction.y * speed + radius * 2 > ofGetHeight())
 	{
-		if (playerStats.lives > 0)
+		if (playerStats.lives > 1)
 		{
 			playerStats.lives--;
 			coord.y = ofGetHeight() / 3;
@@ -167,4 +168,21 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 	}
 
 	return false;
+}
+
+void Ball::reset() {
+	playerStats.lives = 3;
+	playerStats.score = 0;
+	playerStats.brickCount = 0;
+	playerStats.won = false;
+	playerStats.lost = false;
+	playerStats.hitOrange = false;
+	playerStats.hitRed = false;
+	playerStats.hitTop = false;
+	speed = originalSpeed;
+	coord.x = ofGetWidth() / 2;
+	coord.y = ofGetHeight() / 3;
+	direction.x = 1;
+	direction.y = 1;
+	winSound.setLoop(false);
 }

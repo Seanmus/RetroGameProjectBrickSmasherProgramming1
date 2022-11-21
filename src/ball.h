@@ -16,14 +16,16 @@ public:
 	bool checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);
 	bool checkWallCollision(Paddle& paddle, Coordinate2D futurePosition);
 	bool checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition);
-
+	void reset();
 private:
 	Coordinate2D coord;
 	Coordinate2D direction{ 1, 1 };
 	int radius;
 	float speed;
+	float originalSpeed;
 	ofSoundPlayer bounceSound;
 	ofSoundPlayer winSound;
 	ofTrueTypeFont uiFont;
 	void displayUI();
+
 };

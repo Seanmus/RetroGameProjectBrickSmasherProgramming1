@@ -82,3 +82,7 @@ Brick::Color Brick::getColor()
 	return brickColor;
 }
 
+void Brick::reset() {
+	broken = false;
+}
+

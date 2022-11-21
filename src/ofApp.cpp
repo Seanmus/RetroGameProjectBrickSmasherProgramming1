@@ -78,6 +78,21 @@ void ofApp::keyPressed(int key){
 		movingRight = true;
 		movingLeft = false;
 	}
+	else if (key == 114) {
+		reset();
+	}
+}
+
+void ofApp::reset() {
+	ball.reset();
+	paddle.reset();
+	for (int i = 0; i < bricks.size(); i++)
+	{
+		for (int j = 0; j < bricks[0].size(); j++)
+		{
+			bricks[i][j].reset();
+		}
+	}
 }
 
 //--------------------------------------------------------------
