@@ -128,7 +128,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 	else if (futurePosition.y + direction.y * speed + static_cast<float>(radius) * 2 > static_cast<float>(ofGetHeight()))
 	{
 		//Re-spawns the player
-		if (playerStats.lives > 1)
+		if (playerStats.lives > 0)
 		{
 			playerStats.lives--;
 			coord.y = static_cast<float>(ofGetHeight()) / 3;
@@ -205,7 +205,7 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 /// </summary>
 void Ball::reset()
 {
-	playerStats.lives = 3;
+	playerStats.lives = 2;
 	playerStats.score = 0;
 	playerStats.brickCount = 0;
 	playerStats.won = false;

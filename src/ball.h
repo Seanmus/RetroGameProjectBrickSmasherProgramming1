@@ -12,7 +12,7 @@
  */
 class Ball {
 public:
-	Stats playerStats{0, 0, 3, false, false, false};
+	Stats playerStats{0, 0, 2, false, false, false};
 	Ball(const Coordinate2D coord, const int radius, const float speed);
 	void draw();
 	void move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);

@@ -11,6 +11,11 @@ void ofApp::setup(){
 	backgroundMusic.setLoop(true);
 	backgroundMusic.play();
 
+	logo.load("logo.png");
+	logo.setAnchorPoint(logo.getWidth() / 2, logo.getHeight() / 2);
+	buttonImage.load("button.png");
+	buttonImage.setAnchorPoint(buttonImage.getWidth() / 2, buttonImage.getHeight() / 2);
+
 	for(int i = 0; i < rows; i++)
 	{
 		vector<Brick> bricksRow{0};
@@ -43,54 +48,74 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	if(movingLeft)
+	if(playing)
 	{
-		paddle.move(-1);
-	}
-	else if(movingRight)
-	{
-		paddle.move(1);
-	}
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-	ofSetColor(255);
-	paddle.draw();
-	ball.draw();
-	ball.move(bricks, paddle);
-	for(int i = 0; i < bricks.size(); i++)
-	{
-		for(int j = 0; j < bricks[0].size(); j++)
+		if (movingLeft)
 		{
-			bricks[i][j].draw();
+			paddle.move(-1);
+		}
+		else if (movingRight)
+		{
+			paddle.move(1);
 		}
 	}
 }
 
 //--------------------------------------------------------------
+void ofApp::draw(){
+	ofColor bottomColor(255, 0, 128);
+	ofColor topColor(128, 128, 0);
+	ofBackgroundGradient(topColor, bottomColor, OF_GRADIENT_LINEAR);
+
+	if(playing)
+	{
+		ofSetColor(255);
+		paddle.draw();
+		ball.draw();
+		ball.move(bricks, paddle);
+		for (int i = 0; i < static_cast<int>(bricks.size()); i++)
+		{
+			for (int j = 0; j < static_cast<int>(bricks[0].size()); j++)
+			{
+				bricks[i][j].draw();
+			}
+		}
+	}
+	else
+	{
+		logo.draw(ofGetWidth() / 2, ofGetHeight() / 5);
+		buttonImage.draw(ofGetWidth() / 2, ofGetHeight() / 1.5);
+	}
+}
+
+//--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	if (key == 57356) {
-		movingLeft = true;
-		movingRight = false;
-	}
-	else if (key == 57358) {
-		movingRight = true;
-		movingLeft = false;
-	}
-	else if (key == 114) {
-		reset();
+	if(playing)
+	{
+		if (key == 57356) {
+			movingLeft = true;
+			movingRight = false;
+		}
+		else if (key == 57358) {
+			movingRight = true;
+			movingLeft = false;
+		}
+		else if (key == 114) {
+			reset();
+		}
 	}
 }
 
 void ofApp::reset() {
 	ball.reset();
 	paddle.reset();
-	for (int i = 0; i < bricks.size(); i++)
+	for (int i = 0; i < static_cast<int>(bricks.size()); i++)
 	{
-		for (int j = 0; j < bricks[0].size(); j++)
+		for (int j = 0; j < static_cast<int>(bricks[0].size()); j++)
 		{
 			bricks[i][j].reset();
+			playing = false;
+			ofSetColor(255, 255, 255, 255);
 		}
 	}
 }
@@ -123,7 +148,11 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+	if(x >= ofGetWidth() / 2  - buttonImage.getWidth() / 2 && x <= ofGetWidth() / 2 + buttonImage.getWidth() / 2 
+		&& y >= ofGetHeight() / 1.5 - buttonImage.getHeight() / 2 && y <= ofGetWidth() / 1.5 + buttonImage.getHeight() / 2 )
+	{
+		playing = true;
+	}
 }
 
 //--------------------------------------------------------------

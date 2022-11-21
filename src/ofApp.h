@@ -29,8 +29,14 @@ class ofApp : public ofBaseApp{
 		
 		Paddle paddle{ paddleCoord, 8 };
 		std::vector<std::vector<Brick>> bricks;
-		Ball ball{Coordinate2D{ 300, 300 }, 10, 3};;
+		Ball ball{Coordinate2D{ 300, 300 }, 10, 3};
 		bool movingLeft = false;
 		bool movingRight = false;
+
+		bool playing = false;
+		ofImage logo;
+		ofImage buttonImage;
 		ofSoundPlayer backgroundMusic;
+		
+
 };
