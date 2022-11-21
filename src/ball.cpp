@@ -40,20 +40,20 @@ bool Ball::checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddl
 {
 	bool hitEvent = false;
 	Coordinate2D futurePositionX{ coord.x + direction.x * speed / 2, coord.y};
-	Coordinate2D futurePositionY{ coord.x, coord.y + direction.y };
+	Coordinate2D futurePositionY{ coord.x, coord.y + direction.y  * speed};
 	if (checkWallCollision(paddle, futurePositionX)) { hitEvent = true; }
-	else if (paddle.checkCollision(futurePositionX, radius))
+	else if(paddle.checkCollision(futurePositionY, radius))
 	{
 		direction.y = -1;
 		coord.y += direction.y * speed;
 		hitEvent = true;
 	}
-	else if(paddle.checkCollision(futurePositionY, radius))
+	else if (paddle.checkCollision(futurePositionX, radius))
 	{
 		direction.y = -1;
 		direction.x *= -1;
-		coord.x += direction.x * speed;
 		coord.y += direction.y * speed;
+		coord.x += direction.x * speed;
 		hitEvent = true;
 	}
 	else if(futurePositionY.y < ofGetHeight()/3)
@@ -153,6 +153,7 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 	std::cout << "Bricks left " << bricksLeft;
 	if (bricksLeft == 0) {
 		winSound.play();
+		winSound.setLoop(true);
 		playerStats.won = true;
 	}
 
