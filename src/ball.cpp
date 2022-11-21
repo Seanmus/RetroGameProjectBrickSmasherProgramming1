@@ -41,7 +41,7 @@ void Ball::displayUI() {
 		uiFont.drawString("YOU WON!", 200, ofGetHeight() / 2);
 	}
 	else if (playerStats.lost == true) {
-		uiFont.drawString("YOU LOST, TRY AGAIN", ofGetWidth() / 2 - 250, ofGetHeight() / 2);
+		uiFont.drawString("Press r to try again", ofGetWidth() / 2 - 250, ofGetHeight() / 2);
 	}
 }
 
