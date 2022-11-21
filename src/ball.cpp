@@ -1,6 +1,4 @@
 #include "ball.h"
-#include <iostream>
-
 #include "ofAppRunner.h"
 
 /// <summary>
@@ -117,11 +115,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 	}
 	else if (futurePosition.y - static_cast<float>(radius * 2) < 0)
 	{
-		if (!playerStats.hitTop)
-		{
-			playerStats.hitTop = true;
-			paddle.shrink();
-		}
+		paddle.shrink();
 		direction.y = 1;
 		collisionEvent = true;
 	}
@@ -212,7 +206,6 @@ void Ball::reset()
 	playerStats.lost = false;
 	playerStats.hitOrange = false;
 	playerStats.hitRed = false;
-	playerStats.hitTop = false;
 	speed = originalSpeed;
 	coord.x = static_cast<float>(ofGetWidth()) / 2;
 	coord.y = static_cast<float>(ofGetHeight()) / 3;

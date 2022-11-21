@@ -41,7 +41,12 @@ void Paddle::draw() const
 /// </summary>
 void Paddle::shrink()
 {
-	paddleWidth /= 2;
+	if(!shrunk)
+	{
+		paddleWidth /= 2;
+		shrunk = true;
+	}
+
 }
 
 /// <summary>
@@ -62,4 +67,5 @@ void Paddle::reset()
 {
 	paddleWidth = originalPaddleWidth;
 	coord.x = static_cast<float>(ofGetWidth())/ 2;
+	shrunk = false;
 }

@@ -10,5 +10,4 @@ struct Stats{
 	bool lost = false;
 	bool hitRed = false;
 	bool hitOrange = false;
-	bool hitTop = false;
 };

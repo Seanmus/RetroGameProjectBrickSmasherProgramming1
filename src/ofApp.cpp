@@ -83,7 +83,7 @@ void ofApp::draw(){
 	}
 	else
 	{
-		logo.draw(ofGetWidth() / 2, ofGetHeight() / 5);
+		logo.draw(static_cast<float>(ofGetWidth()) / 2, static_cast<float>(ofGetHeight()) / 5);
 		startButtonImage.draw(startButtonCoord.x, startButtonCoord.y);
 	}
 }

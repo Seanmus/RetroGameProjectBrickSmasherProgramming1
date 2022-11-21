@@ -12,6 +12,7 @@ class Paddle {
 		int paddleWidth = 100;
 		int originalPaddleWidth;
 		int paddleHeight = 20;
+		bool shrunk = false;
 	public:
 		Paddle(const Coordinate2D& coord, int speed);
 		void move(int direction);
