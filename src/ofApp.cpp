@@ -7,6 +7,10 @@ void ofApp::setup(){
 	int brickWidth = ofGetWidth() / columns;
 	int brickHeight = (ofGetHeight() / 5) / rows;
 
+	backgroundMusic.loadSound("music.wav");
+	backgroundMusic.setLoop(true);
+	backgroundMusic.play();
+
 	for(int i = 0; i < rows; i++)
 	{
 		vector<Brick> bricksRow{0};

@@ -31,4 +31,5 @@ class ofApp : public ofBaseApp{
 		Ball ball{Coordinate2D{ 300, 300 }, 10, 3};;
 		bool movingLeft = false;
 		bool movingRight = false;
+		ofSoundPlayer backgroundMusic;
 };
