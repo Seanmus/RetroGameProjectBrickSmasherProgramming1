@@ -122,7 +122,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 			playerStats.hitTop = true;
 			paddle.shrink();
 		}
-		direction.y *= -1;
+		direction.y = 1;
 		collisionEvent = true;
 	}
 	else if (futurePosition.y + direction.y * speed + static_cast<float>(radius) * 2 > static_cast<float>(ofGetHeight()))
