@@ -6,7 +6,7 @@
 /// <summary>
 /// Constructs the ball
 /// </summary>
-/// <param name="coord">The inital starting position of the ball.</param>
+/// <param name="coord">The initial starting position of the ball.</param>
 /// <param name="radius">The radius of the ball.</param>
 /// <param name="speed">The initial speed of the ball.</param>
 Ball::Ball(const Coordinate2D coord, const int radius, const float speed)

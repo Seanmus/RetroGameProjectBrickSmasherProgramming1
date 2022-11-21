@@ -15,8 +15,8 @@ class Paddle {
 	public:
 		Paddle(const Coordinate2D& coord, int speed);
 		void move(int direction);
-		void draw();
+		void draw() const;
 		void shrink();
-		bool checkCollision(Coordinate2D otherPosition, int otherSize);
+		bool checkCollision(Coordinate2D otherPosition, int otherSize) const;
 		void reset();
 };

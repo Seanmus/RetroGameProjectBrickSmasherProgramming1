@@ -5,8 +5,8 @@
 /// Constructs the paddle object.
 /// </summary>
 /// <param name="coord">The starting position of the paddle.</param>
-/// <param name="speedMultiplier">The speed of the paddle</param>
-Paddle::Paddle(const Coordinate2D& coord, int speed)
+/// <param name="speed">The speed of the paddle</param>
+Paddle::Paddle(const Coordinate2D& coord, const int speed)
 {
 	this->coord = coord;
 	this->speed = speed;
@@ -17,22 +17,22 @@ Paddle::Paddle(const Coordinate2D& coord, int speed)
 /// Moves the paddle in the provided direction 
 /// </summary>
 /// <param name="direction">Positive moves right, negative moves left.</param>
-void Paddle::move(int direction)
+void Paddle::move(const int direction)
 {
 	//Guard to stop paddle going Left off the screen
-	if (direction == -1 && coord.x - speed < 0) { return; }
+	if (direction == -1 && coord.x - static_cast<float>(speed) < 0) { return; }
 	//Guard to stop paddle going Right off the screen
-	if (direction == 1 && coord.x + speed + paddleWidth > ofGetViewportWidth()) { return; }
+	if (direction == 1 && coord.x + static_cast<float>(speed + paddleWidth) > static_cast<float>(ofGetViewportWidth())) { return; }
 
-	coord.x += speed * direction;
+	coord.x += static_cast<float>(speed * direction);
 }
 
 /// <summary>
 /// Draws the paddle to the screen.
 /// </summary>
-void Paddle::draw()
+void Paddle::draw() const
 {
-	ofDrawRectangle(coord.x, coord.y, paddleWidth, paddleHeight);
+	ofDrawRectangle(coord.x, coord.y,  static_cast<float>(paddleWidth), static_cast<float>(paddleHeight));
 
 }
 
@@ -49,10 +49,10 @@ void Paddle::shrink()
 /// </summary>
 /// <param name="otherPosition">The position of the other object.</param>
 /// <param name="otherSize">The size of the other object.</param>
-/// <returns></returns>
-bool Paddle::checkCollision(Coordinate2D otherPosition, int otherSize)
+/// <returns>True is a collision is detected.</returns>
+bool Paddle::checkCollision(const Coordinate2D otherPosition, const int otherSize) const
 {
-	return (otherPosition.x > coord.x - otherSize * 2 && otherPosition.x < coord.x + paddleWidth + otherSize * 2 && otherPosition.y + otherSize > coord.y && otherPosition.y < coord.y + paddleHeight);
+	return (otherPosition.x > coord.x - static_cast<float>(otherSize * 2) && otherPosition.x < coord.x + static_cast<float>(paddleWidth + otherSize * 2) && otherPosition.y + static_cast<float>(otherSize) > coord.y && otherPosition.y < coord.y + static_cast<float>(paddleHeight));
 }
 
 /// <summary>
@@ -61,5 +61,5 @@ bool Paddle::checkCollision(Coordinate2D otherPosition, int otherSize)
 void Paddle::reset() 
 {
 	paddleWidth = originalPaddleWidth;
-	coord.x = ofGetWidth() / 2;
+	coord.x = static_cast<float>(ofGetWidth())/ 2;
 }
