@@ -4,11 +4,12 @@
 #include "paddle.h"
 #include <vector>
 #include "stats.h"
+#include <ofTrueTypeFont.h>
 #include <ofSoundPlayer.h>
 
 class Ball {
 public:
-	Stats playerStats{0, 0, 99, false, false, false};
+	Stats playerStats{0, 0, 3, false, false, false};
 	Ball(const Coordinate2D coord, const int radius, const float speed);
 	void draw();
 	void move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);
@@ -22,4 +23,5 @@ private:
 	float speed;
 	ofSoundPlayer bounceSound;
 	ofSoundPlayer winSound;
+	ofTrueTypeFont uiFont;
 };

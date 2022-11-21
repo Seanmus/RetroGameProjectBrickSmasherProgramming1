@@ -10,7 +10,7 @@ Ball::Ball(const Coordinate2D coord, const int radius, const float speed)
 	this->speed = speed;
 	bounceSound.loadSound("bounce.wav");
 	winSound.loadSound("win.wav");
-
+	uiFont.loadFont("Sigmar.ttf", 30);
 }
 
 void Ball::draw()
@@ -18,8 +18,8 @@ void Ball::draw()
 	std::string scoreString = "Score: " + std::to_string(playerStats.score);
 	std::string livesString = "Lives: " + std::to_string(playerStats.lives);
 	ofDrawCircle(coord.x, coord.y, radius);
-	ofDrawBitmapString(scoreString, 100, 500);
-	ofDrawBitmapString(livesString, 100, 550);
+	uiFont.drawString(scoreString, 100, 500);
+	uiFont.drawString(livesString, 100, 550);
 	
 }
 
@@ -106,6 +106,7 @@ bool Ball::checkWallCollision(Paddle& paddle, Coordinate2D futurePosition)
 		}
 		else {
 			speed = 0;
+
 			std::cout << "You lost";
 		}
 		collisionEvent = true;
@@ -150,7 +151,6 @@ bool Ball::checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordina
 			}
 		}
 	}
-	std::cout << "Bricks left " << bricksLeft;
 	if (bricksLeft == 0) {
 		winSound.play();
 		winSound.setLoop(true);
