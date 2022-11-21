@@ -33,7 +33,7 @@ void ofApp::setup(){
 			{
 				brickColor = Brick::Color::Yellow;
 			}
-			Coordinate2D coord{ brickWidth * static_cast<float>(j), brickHeight * static_cast<float>(i) + 10};
+			Coordinate2D coord{ brickWidth * static_cast<float>(j), brickHeight * static_cast<float>(i + 4) + 10};
 			Brick brick{ coord,brickWidth - 5, brickHeight - 5, brickColor };
 			bricksRow.push_back(brick);
 		}

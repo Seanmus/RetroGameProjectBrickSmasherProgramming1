@@ -4,6 +4,7 @@ struct Stats{
 	int brickCount = 0;
 	int lives = 0;
 	bool won = false;
+	bool lost = false;
 	bool hitRed = false;
 	bool hitOrange = false;
 	bool hitTop = false;

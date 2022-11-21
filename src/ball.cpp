@@ -18,8 +18,8 @@ void Ball::draw()
 	std::string scoreString = "Score: " + std::to_string(playerStats.score);
 	std::string livesString = "Lives: " + std::to_string(playerStats.lives);
 	ofDrawCircle(coord.x, coord.y, radius);
-	uiFont.drawString(scoreString, 100, 500);
-	uiFont.drawString(livesString, 100, 550);
+	uiFont.drawString(scoreString, 50, 50);
+	uiFont.drawString(livesString, 400, 50);
 	
 }
 
