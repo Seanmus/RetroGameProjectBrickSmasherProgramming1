@@ -3,7 +3,14 @@
 #include "ofGraphics.h"
 
 
-
+/// <summary>
+/// Checks if the ball collides with walls, bricks or the paddle.
+/// </summary>
+/// <param name="coord">The 2d vector of bricks to check collisions against.</param>
+/// <param name="sizeX">The width of the paddle.</param>
+///	<param name="sizeY">The height of the paddle.</param>
+///	<param name="color">The color of the brick.</param>
+/// <returns>True if a hit is detected.</returns>
 Brick::Brick(const Coordinate2D coord,const int sizeX, const int sizeY, const Color color)
 {
 	this->coord = coord;
@@ -12,11 +19,16 @@ Brick::Brick(const Coordinate2D coord,const int sizeX, const int sizeY, const Co
 	this->brickColor = color;
 }
 
+/// <summary>
+/// A default constructor for the brick.
+/// </summary>
 Brick::Brick()
 {
 }
 
-
+/// <summary>
+/// Draws the brick of the specified color.
+/// </summary>
 void Brick::draw() const
 {
 	if(!broken)
@@ -41,7 +53,12 @@ void Brick::draw() const
 	}
 
 }
-
+/// <summary>
+/// Checks if a collision is detected against the provided coordinates
+/// </summary>
+/// <param name="otherCoord">The position to check collisions against.</param>
+/// <param name="otherSize">The size of the other object.</param>
+/// <returns>True if a hit is detected.</returns>
 bool Brick::checkCollision(Coordinate2D otherCoord, int otherSize)
 {
 	if (!broken && otherCoord.x + otherSize * 2 > coord.x && otherCoord.x < coord.x + sizeX + otherSize * 2 && otherCoord.y > coord.y && otherCoord.y < coord.y + sizeY + otherSize * 2)
@@ -52,6 +69,10 @@ bool Brick::checkCollision(Coordinate2D otherCoord, int otherSize)
 	return false;
 }
 
+/// <summary>
+/// Returns a score value of the brick based on its color.
+/// </summary>
+/// <returns>The score value of the brick based on its color.</returns>
 int Brick::getScoreValue()
 {
 	if(brickColor == Color::Yellow)
@@ -72,11 +93,19 @@ int Brick::getScoreValue()
 	}
 }
 
+/// <summary>
+/// Checks if the brick is broken
+/// </summary>
+/// <returns>True if a the brick is broken.</returns>
 bool Brick::getBroken()
 {
 	return broken;
 }
 
+/// <summary>
+/// Checks the color of the brick.
+/// </summary>
+/// <returns>The color of the brick.</returns>
 Brick::Color Brick::getColor()
 {
 	return brickColor;
