@@ -1,4 +1,7 @@
 #pragma once
+/**
+ * Stores lives score and game states
+ */
 struct Stats{
 	int score = 0;
 	int brickCount = 0;

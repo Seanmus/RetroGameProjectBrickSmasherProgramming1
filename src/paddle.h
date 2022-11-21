@@ -2,6 +2,9 @@
 #include "coord.h"
 #include "ofGraphics.h"
 
+/**
+ * Outlines functionality for a paddle
+ */
 class Paddle {
 	private:
 		Coordinate2D coord;

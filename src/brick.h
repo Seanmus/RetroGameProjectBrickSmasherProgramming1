@@ -1,6 +1,9 @@
 #pragma once
 #include "coord.h"
 
+/**
+ * Header file for the brick outlines functionality for the brick class.
+ */
 class Brick {
 	public:
 		enum class Color { Red, Orange, Green, Yellow };

@@ -7,6 +7,9 @@
 #include <ofTrueTypeFont.h>
 #include <ofSoundPlayer.h>
 
+/**
+ * Header file for the ball class that stores lives and score
+ */
 class Ball {
 public:
 	Stats playerStats{0, 0, 3, false, false, false};
