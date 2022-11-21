@@ -4,6 +4,7 @@
 #include "paddle.h"
 #include <vector>
 #include "stats.h"
+#include <ofSoundPlayer.h>
 
 class Ball {
 public:
@@ -11,7 +12,7 @@ public:
 	Ball(const Coordinate2D coord, const int radius, const float speed);
 	void draw();
 	void move(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);
-	void checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);
+	bool checkCollision(std::vector<std::vector<Brick>>& bricks, Paddle& paddle);
 	bool checkWallCollision(Paddle& paddle, Coordinate2D futurePosition);
 	bool checkBrickCollision(std::vector<std::vector<Brick>>& bricks, Coordinate2D futurePosition);
 private:
@@ -19,4 +20,6 @@ private:
 	Coordinate2D direction{ 1, 1 };
 	int radius;
 	float speed;
+	ofSoundPlayer bounceSound;
+	ofSoundPlayer winSound;
 };
